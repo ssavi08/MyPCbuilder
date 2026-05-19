@@ -1,4 +1,5 @@
 import Navbar from '../components/ui/Navbar'
+import PCScene from '../components/three/PCScene'
 import './Builder.css'
 
 export default function Builder() {
@@ -7,7 +8,7 @@ export default function Builder() {
       <Navbar />
       <div className="builder-container">
 
-        {/* Left Panel - Component Selection */}
+        {/* Left Panel */}
         <aside className="builder-sidebar">
           <h2>Configure Your PC</h2>
           <p className="sidebar-subtitle">
@@ -17,39 +18,35 @@ export default function Builder() {
           <div className="placeholder-section">
             <div className="placeholder-block">
               <span>🎯</span>
-              <p>Purpose selector coming Day 4</p>
+              <p>Purpose selector — Day 4</p>
             </div>
             <div className="placeholder-block">
               <span>💰</span>
-              <p>Budget input coming Day 4</p>
+              <p>Budget input — Day 4</p>
             </div>
             <div className="placeholder-block">
               <span>🤖</span>
-              <p>AI recommendations coming Day 8</p>
+              <p>AI recommendations — Day 8</p>
             </div>
           </div>
         </aside>
 
         {/* Center - 3D Scene */}
         <main className="builder-scene">
-          <div className="scene-placeholder">
-            <span>🧊</span>
-            <h3>3D Scene</h3>
-            <p>Three.js scene coming Day 3</p>
-          </div>
+          <PCScene />
         </main>
 
-        {/* Right Panel - Component Details */}
+        {/* Right Panel */}
         <aside className="builder-details">
           <h2>Component Details</h2>
           <p className="sidebar-subtitle">
-            Click a component to see details
+            Click a component in the 3D scene to see details
           </p>
 
           <div className="placeholder-section">
             <div className="placeholder-block">
               <span>📋</span>
-              <p>Component specs coming Day 4</p>
+              <p>Click any component in the 3D scene</p>
             </div>
           </div>
         </aside>
