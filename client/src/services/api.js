@@ -14,13 +14,17 @@ async function request(path, options = {}) {
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error || 'Request failed')
+      throw new Error(data.error || `Request failed: ${response.status}`)
     }
 
     return data
 
   } catch (error) {
-    console.error(`API Error [${path}]:`, error.message)
+    if (error.message === 'Failed to fetch') {
+      throw new Error(
+        'Cannot connect to backend. Is the server running on port 3001?'
+      )
+    }
     throw error
   }
 }
@@ -56,10 +60,6 @@ export const buildAPI = {
       body: JSON.stringify({ build }),
     }),
 }
-
-// ================================
-// HEALTH CHECK
-// ================================
 
 export const healthAPI = {
   check: () => request('/health'),

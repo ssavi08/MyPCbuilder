@@ -1,3 +1,4 @@
+import AIExplanation from './AIExplanation'
 import useStore from '../../store/useStore'
 import './ComponentDetails.css'
 
@@ -44,7 +45,10 @@ export default function ComponentDetails() {
   return (
     <div className="component-details">
       <h2 className="details-title">Build Summary</h2>
+      <h2 className="details-title">Build Summary</h2>
 
+      {/* AI Explanation */}
+      <AIExplanation />
       {/* ============================
           BUDGET USAGE BAR
           ============================ */}

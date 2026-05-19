@@ -1,3 +1,4 @@
+import AIBuildButton from './AIBuildButton'
 import { useState } from 'react'
 import useStore from '../../store/useStore'
 import ComponentCard from './ComponentCard'
@@ -82,6 +83,13 @@ export default function BuildSidebar() {
         </div>
       </div>
 
+      {/* ============================
+          AI GENERATE BUTTON
+          ============================ */}
+      <div className="sidebar-section">
+        <AIBuildButton />
+      </div>
+      
       {/* ============================
           BUILD PROGRESS
           ============================ */}

@@ -27,11 +27,16 @@ const useStore = create((set, get) => ({
     case: null,
   },
 
-  // ================================
+// ================================
   // UI STATE
   // ================================
-  activeComponent: null,    // which component is clicked in 3D
-  activeCategory: 'cpu',    // which category tab is open in sidebar
+  activeComponent: null,
+  activeCategory: 'cpu',
+
+  // AI Results
+  aiExplanation: null,
+  aiPerformanceRating: null,
+  aiSource: null,
 
   // ================================
   // ACTIONS: Filters
