@@ -1,32 +1,81 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import componentRoutes from './routes/componentRoutes.js'
+import buildRoutes from './routes/buildRoutes.js'
 
-// Load environment variables
-dotenv.config();
+dotenv.config()
 
-const app = express();
-const PORT = process.env.PORT || 3001;
+const app = express()
+const PORT = process.env.PORT || 3001
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// ================================
+// MIDDLEWARE
+// ================================
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}))
 
-// Test route
-app.get('/api/test', (req, res) => {
-  res.json({ 
-    message: 'Backend is working!',
-    timestamp: new Date().toISOString()
-  });
-});
+app.use(express.json())
 
-// Health check
+// ================================
+// REQUEST LOGGER (dev only)
+// ================================
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`)
+  next()
+})
+
+// ================================
+// ROUTES
+// ================================
+app.use('/api/components', componentRoutes)
+app.use('/api',            buildRoutes)
+
+// ================================
+// HEALTH CHECK
+// ================================
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK' });
-});
+  res.json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+  })
+})
 
-// Start server
+// ================================
+// 404 HANDLER
+// ================================
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    error: `Route ${req.method} ${req.path} not found`,
+  })
+})
+
+// ================================
+// ERROR HANDLER
+// ================================
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err)
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error',
+  })
+})
+
+// ================================
+// START
+// ================================
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📡 API available at http://localhost:${PORT}/api`);
-});
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
+  console.log(`📡 API ready at http://localhost:${PORT}/api`)
+  console.log(`🔧 Endpoints:`)
+  console.log(`   GET  /api/health`)
+  console.log(`   GET  /api/components`)
+  console.log(`   GET  /api/components?type=cpu`)
+  console.log(`   POST /api/generate-build`)
+  console.log(`   POST /api/validate-build`)
+})
