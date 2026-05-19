@@ -1,0 +1,137 @@
+.about-page {
+  min-height: 100vh;
+}
+
+.about-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.about-header h1 {
+  font-size: 48px;
+  margin-bottom: var(--spacing-sm);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-header p {
+  color: var(--color-text-secondary);
+  font-size: 18px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.about-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  transition: border-color 0.3s ease;
+}
+
+.about-card:hover {
+  border-color: var(--color-primary);
+}
+
+.about-card h2 {
+  font-size: 20px;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}
+
+.about-card p,
+.about-card li {
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.about-card ol {
+  padding-left: var(--spacing-lg);
+}
+
+.about-card li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.tech-tag {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  color: var(--color-primary);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.arch-step {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  width: 100%;
+  text-align: center;
+}
+
+.arch-arrow {
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.about-cta {
+  text-align: center;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
