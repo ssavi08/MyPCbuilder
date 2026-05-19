@@ -1,5 +1,7 @@
 import Navbar from '../components/ui/Navbar'
 import PCScene from '../components/three/PCScene'
+import BuildSidebar from '../components/builder/BuildSidebar'
+import ComponentDetails from '../components/builder/ComponentDetails'
 import './Builder.css'
 
 export default function Builder() {
@@ -8,27 +10,9 @@ export default function Builder() {
       <Navbar />
       <div className="builder-container">
 
-        {/* Left Panel */}
+        {/* Left Panel - Component Selection */}
         <aside className="builder-sidebar">
-          <h2>Configure Your PC</h2>
-          <p className="sidebar-subtitle">
-            Select purpose and budget to get started
-          </p>
-
-          <div className="placeholder-section">
-            <div className="placeholder-block">
-              <span>🎯</span>
-              <p>Purpose selector — Day 4</p>
-            </div>
-            <div className="placeholder-block">
-              <span>💰</span>
-              <p>Budget input — Day 4</p>
-            </div>
-            <div className="placeholder-block">
-              <span>🤖</span>
-              <p>AI recommendations — Day 8</p>
-            </div>
-          </div>
+          <BuildSidebar />
         </aside>
 
         {/* Center - 3D Scene */}
@@ -36,19 +20,9 @@ export default function Builder() {
           <PCScene />
         </main>
 
-        {/* Right Panel */}
+        {/* Right Panel - Build Summary */}
         <aside className="builder-details">
-          <h2>Component Details</h2>
-          <p className="sidebar-subtitle">
-            Click a component in the 3D scene to see details
-          </p>
-
-          <div className="placeholder-section">
-            <div className="placeholder-block">
-              <span>📋</span>
-              <p>Click any component in the 3D scene</p>
-            </div>
-          </div>
+          <ComponentDetails />
         </aside>
 
       </div>

@@ -1,0 +1,193 @@
+.build-sidebar {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+}
+
+/* ===========================
+   SECTION
+   =========================== */
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===========================
+   USE CASE BUTTONS
+   =========================== */
+
+.use-case-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.use-case-btn {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.use-case-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.use-case-btn.active {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ===========================
+   BUDGET SLIDER
+   =========================== */
+
+.budget-value {
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.budget-slider {
+  width: 100%;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.budget-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* ===========================
+   PROGRESS
+   =========================== */
+
+.progress-bar {
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.total-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.total-price span:first-of-type {
+  color: var(--color-primary);
+}
+
+.budget-remaining {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* ===========================
+   CATEGORY TABS
+   =========================== */
+
+.category-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.category-tab {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 4px;
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.category-tab:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.category-tab.active {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ===========================
+   COMPONENT LIST
+   =========================== */
+
+.component-list {
+  flex: 1;
+}
+
+.component-count {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+
+.no-components {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.8;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
