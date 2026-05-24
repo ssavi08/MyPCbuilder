@@ -1,18 +1,31 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Home from '../pages/Home'
-import Builder from '../pages/Builder'
-import About from '../pages/About'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
+
+const Home     = lazy(() => import('../pages/Home'))
+const Builder  = lazy(() => import('../pages/Builder'))
+const About    = lazy(() => import('../pages/About'))
+
+function AnimatedRoutes() {
+  const location = useLocation()
+
+  return (
+    <div className="page-wrapper" key={location.pathname}>
+      <Routes location={location}>
+        <Route path="/"        element={<Home />}    />
+        <Route path="/builder" element={<Builder />} />
+        <Route path="/about"   element={<About />}   />
+        <Route path="*"        element={<Navigate to="/" replace />} />
+      </Routes>
+    </div>
+  )
+}
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/builder" element={<Builder />} />
-        <Route path="/about" element={<About />} />
-        {/* Redirect unknown routes to home */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <Suspense fallback={<div style={{ color: 'white', padding: 20 }}>Loading...</div>}>
+        <AnimatedRoutes />
+      </Suspense>
     </BrowserRouter>
   )
 }

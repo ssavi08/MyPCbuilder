@@ -18,10 +18,10 @@ export default function PCScene() {
         <Suspense fallback={null}>
 
           {/* Lighting */}
-          <ambientLight intensity={0.4} />
+          <ambientLight intensity={1.2} />
           <directionalLight
             position={[10, 10, 5]}
-            intensity={1}
+            intensity={2}
             castShadow
           />
           <directionalLight

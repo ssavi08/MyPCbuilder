@@ -291,6 +291,7 @@ export const components = {
       price: 89,
       formFactor: 'ATX',
       useCases: ['school', 'work', 'gaming'],
+      modelPath: "/models/case/Case_NZXT_H5_Flow_464x215x424.glb",
     },
     {
       id: 'case-003',

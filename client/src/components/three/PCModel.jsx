@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react'
+import { useRef, Suspense, useState, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { RoundedBox, Box, Text, Html } from '@react-three/drei'
+import { RoundedBox, Box, Text, Html, useGLTF } from '@react-three/drei'
 import useStore from '../../store/useStore'
 
 // ================================
@@ -14,7 +14,7 @@ const COMPONENT_SLOTS = [
     id: 'motherboard',
     label: 'Motherboard',
     category: 'motherboard',
-    position: [0, -0.5, 0],
+    position: [0.2, -0.3, 0],
     size: [2.8, 0.08, 1.6],
     defaultColor: '#2d5a1b',
   },
@@ -22,7 +22,7 @@ const COMPONENT_SLOTS = [
     id: 'cpu',
     label: 'CPU',
     category: 'cpu',
-    position: [0.3, -0.35, 0.1],
+    position: [0.5, -0.15, 0.1],
     size: [0.6, 0.08, 0.6],
     defaultColor: '#8b7355',
   },
@@ -30,7 +30,7 @@ const COMPONENT_SLOTS = [
     id: 'cpu-cooler',
     label: 'CPU Cooler',
     category: null,
-    position: [0.3, 0.05, 0.1],
+    position: [0.5, 0.35, 0.1],
     size: [0.65, 0.7, 0.65],
     defaultColor: '#4a4a6a',
   },
@@ -38,7 +38,7 @@ const COMPONENT_SLOTS = [
     id: 'ram-1',
     label: 'RAM Slot 1',
     category: 'ram',
-    position: [-0.3, -0.15, 0.1],
+    position: [-0.1, 0.05, 0.1],
     size: [0.14, 0.55, 1.0],
     defaultColor: '#1a3a5c',
   },
@@ -46,7 +46,7 @@ const COMPONENT_SLOTS = [
     id: 'ram-2',
     label: 'RAM Slot 2',
     category: 'ram',
-    position: [-0.5, -0.15, 0.1],
+    position: [-0.3, 0.05, 0.1],
     size: [0.14, 0.55, 1.0],
     defaultColor: '#1a3a5c',
   },
@@ -54,7 +54,7 @@ const COMPONENT_SLOTS = [
     id: 'gpu',
     label: 'GPU',
     category: 'gpu',
-    position: [0, -1.2, 0.3],
+    position: [0.2, -0.9, 0.3],
     size: [2.2, 0.22, 0.8],
     defaultColor: '#1a1a3a',
   },
@@ -62,7 +62,7 @@ const COMPONENT_SLOTS = [
     id: 'gpu-fan',
     label: 'GPU Fan',
     category: null,
-    position: [-0.5, -1.1, 0.72],
+    position: [-0.3, -0.8, 0.72],
     size: [0.58, 0.58, 0.04],
     defaultColor: '#2a2a5a',
   },
@@ -70,7 +70,7 @@ const COMPONENT_SLOTS = [
     id: 'storage',
     label: 'Storage',
     category: 'storage',
-    position: [-1.0, -1.8, 0],
+    position: [-0.8, -1.5, 0],
     size: [0.8, 0.07, 0.5],
     defaultColor: '#3a1a5c',
   },
@@ -78,7 +78,7 @@ const COMPONENT_SLOTS = [
     id: 'psu',
     label: 'PSU',
     category: 'psu',
-    position: [0, -2.15, 0],
+    position: [0, -1.85, 0],
     size: [2.4, 0.45, 1.4],
     defaultColor: '#2a2a2a',
   },
@@ -209,10 +209,25 @@ function ComponentSlot({ slot, isSelected, isHovered, onHover, onClick }) {
 // PC CASE FRAME
 // ================================
 
-function PCCase() {
+function RealCase({ modelPath }) {
+  const { scene } = useGLTF(modelPath)
+  const cloned = useMemo(() => scene.clone(true), [scene])
+
+  console.log('RealCase rendering, cloned scene:', cloned)
+
+  return (
+    <primitive
+      object={cloned}
+      position={[0, -2.1, 0]}
+      scale={0.01}
+      rotation={[0, -Math.PI / 2, 0]}
+    />
+  )
+}
+
+function PlaceholderCase() {
   return (
     <group>
-      {/* Transparent body */}
       <Box args={[3.5, 5, 2]} position={[0, 0, 0]}>
         <meshStandardMaterial
           color="#1a1a2e"
@@ -222,8 +237,6 @@ function PCCase() {
           opacity={0.12}
         />
       </Box>
-
-      {/* Glowing frame edges */}
       {[
         { args: [3.5, 0.04, 2], position: [0,  2.5, 0] },
         { args: [3.5, 0.04, 2], position: [0, -2.5, 0] },
@@ -242,6 +255,21 @@ function PCCase() {
       ))}
     </group>
   )
+}
+
+function PCCase() {
+  const { selectedComponents } = useStore()
+  const selectedCase = selectedComponents.case
+  console.log('PCCase rendering, selectedCase:', selectedCase)
+  if (selectedCase?.modelPath) {
+    return (
+      <Suspense fallback={<PlaceholderCase />}>
+        <RealCase modelPath={selectedCase.modelPath} />
+      </Suspense>
+    )
+  }
+
+  return <PlaceholderCase />
 }
 
 // ================================

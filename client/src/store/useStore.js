@@ -1,6 +1,18 @@
 import { create } from 'zustand'
 import componentsData from '../data/components.json'
 
+// Default case shown before AI generates anything
+const DEFAULT_CASE = {
+  id:         'case-002',
+  name:       'NZXT H510',
+  brand:      'NZXT',
+  price:      89,
+  formFactor: 'ATX',
+  modelPath:  '/models/case/Case_NZXT_H5_Flow_464x215x424.glb',
+  useCases:   ['school', 'work', 'gaming'],
+  color:      '#333333',
+}
+
 const useStore = create((set, get) => ({
 
   // ================================
@@ -11,38 +23,36 @@ const useStore = create((set, get) => ({
   // ================================
   // USER SELECTIONS (filters)
   // ================================
-  useCase: 'gaming',      // 'school' | 'work' | 'gaming'
-  budget: 1500,           // in USD
+  useCase: 'gaming',
+  budget:  1500,
 
   // ================================
   // SELECTED BUILD COMPONENTS
   // ================================
   selectedComponents: {
-    cpu: null,
+    cpu:         null,
     motherboard: null,
-    ram: null,
-    gpu: null,
-    storage: null,
-    psu: null,
-    case: null,
+    ram:         null,
+    gpu:         null,
+    storage:     null,
+    psu:         null,
+    case:        DEFAULT_CASE,  // ← shows on load
   },
 
-// ================================
+  // ================================
   // UI STATE
   // ================================
-  activeComponent: null,
-  activeCategory: 'cpu',
-
-  // AI Results
-  aiExplanation: null,
+  activeComponent:     null,
+  activeCategory:      'cpu',
+  aiExplanation:       null,
   aiPerformanceRating: null,
-  aiSource: null,
+  aiSource:            null,
 
   // ================================
   // ACTIONS: Filters
   // ================================
   setUseCase: (useCase) => set({ useCase }),
-  setBudget: (budget) => set({ budget }),
+  setBudget:  (budget)  => set({ budget }),
 
   // ================================
   // ACTIONS: Component Selection
@@ -59,28 +69,30 @@ const useStore = create((set, get) => ({
     set((state) => ({
       selectedComponents: {
         ...state.selectedComponents,
-        [category]: null,
+        // If clearing the case, go back to default
+        // instead of null so scene stays populated
+        [category]: category === 'case' ? DEFAULT_CASE : null,
       }
     })),
 
   clearAllComponents: () =>
     set({
       selectedComponents: {
-        cpu: null,
+        cpu:         null,
         motherboard: null,
-        ram: null,
-        gpu: null,
-        storage: null,
-        psu: null,
-        case: null,
+        ram:         null,
+        gpu:         null,
+        storage:     null,
+        psu:         null,
+        case:        DEFAULT_CASE,  // ← keep default case on reset
       }
     }),
 
   // ================================
   // ACTIONS: UI
   // ================================
-  setActiveComponent: (name) => set({ activeComponent: name }),
-  setActiveCategory: (category) => set({ activeCategory: category }),
+  setActiveComponent: (name)     => set({ activeComponent: name }),
+  setActiveCategory:  (category) => set({ activeCategory: category }),
 
   // ================================
   // COMPUTED: Total Price
@@ -98,15 +110,14 @@ const useStore = create((set, get) => ({
   getFilteredComponents: (category) => {
     const { allComponents, useCase, budget } = get()
 
-    // Map category names to JSON keys
     const categoryMap = {
-      cpu: 'cpus',
+      cpu:         'cpus',
       motherboard: 'motherboards',
-      ram: 'rams',
-      gpu: 'gpus',
-      storage: 'storage',
-      psu: 'psus',
-      case: 'cases',
+      ram:         'rams',
+      gpu:         'gpus',
+      storage:     'storage',
+      psu:         'psus',
+      case:        'cases',
     }
 
     const key = categoryMap[category]
@@ -114,7 +125,7 @@ const useStore = create((set, get) => ({
 
     return allComponents[key].filter((component) => {
       const matchesUseCase = component.useCases.includes(useCase)
-      const withinBudget = component.price <= budget * 0.5
+      const withinBudget   = component.price <= budget * 0.5
       return matchesUseCase && withinBudget
     })
   },
@@ -128,10 +139,10 @@ const useStore = create((set, get) => ({
       .filter(([, component]) => component !== null)
 
     return {
-      components: selected,
-      totalPrice: getTotalPrice(),
+      components:        selected,
+      totalPrice:        getTotalPrice(),
       completionPercent: Math.round((selected.length / 7) * 100),
-      isComplete: selected.length === 7,
+      isComplete:        selected.length === 7,
     }
   },
 
