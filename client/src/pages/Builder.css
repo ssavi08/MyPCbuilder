@@ -1,99 +1,36 @@
-.builder-page {
+.builder {
+  width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.builder-container {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 300px 1fr 300px;
-  overflow: hidden;
-}
-
-/* SIDEBARS */
-
-.builder-sidebar,
-.builder-details {
-  background: var(--color-bg-card);
-  border-right: 1px solid var(--color-border);
-  padding: var(--spacing-xl);
-  overflow-y: auto;
-}
-
-.builder-details {
-  border-right: none;
-  border-left: 1px solid var(--color-border);
-}
-
-.builder-sidebar h2,
-.builder-details h2 {
-  font-size: 18px;
-  margin-bottom: var(--spacing-xs);
-  color: var(--color-text-primary);
-}
-
-.sidebar-subtitle {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-xl);
-}
-
-.placeholder-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.placeholder-block {
-  background: rgba(102, 126, 234, 0.05);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
-  text-align: center;
-}
-
-.placeholder-block span {
-  font-size: 28px;
-  display: block;
-  margin-bottom: var(--spacing-sm);
-}
-
-.placeholder-block p {
-  color: var(--color-text-muted);
-  font-size: 13px;
-}
-
-/* 3D SCENE AREA */
-
-.builder-scene {
-  background: var(--color-bg);
   position: relative;
   overflow: hidden;
+  background: var(--white);
 }
 
-.scene-placeholder {
+/* Full screen canvas behind everything */
+.builder-canvas {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: var(--color-text-muted);
+  inset: 0;
+  z-index: 0;
 }
 
-.scene-placeholder span {
-  font-size: 64px;
-  display: block;
-  margin-bottom: var(--spacing-md);
+/* Floating panel - sits on top of canvas */
+.builder-panel-left {
+  position: absolute;
+  top: 72px;       /* below topbar */
+  left: 20px;
+  bottom: 20px;
+  width: 400px;
+  z-index: 10;
+
+  /* Prevent panel from being too tall */
+  max-height: calc(100vh - 92px);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Scrollbar hidden but functional */
+  scrollbar-width: none;
 }
 
-.scene-placeholder h3 {
-  font-size: 24px;
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-text-secondary);
-}
-
-.scene-placeholder p {
-  font-size: 14px;
+.builder-panel-left::-webkit-scrollbar {
+  display: none;
 }

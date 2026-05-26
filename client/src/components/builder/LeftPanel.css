@@ -1,0 +1,277 @@
+/* ===========================
+   GLASS PANEL
+   =========================== */
+
+.left-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+
+  background:           var(--glass-bg);
+  backdrop-filter:      var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border:               1px solid var(--glass-border);
+  border-radius:        var(--radius-xl);
+  box-shadow:           var(--glass-shadow);
+  padding:              var(--space-6);
+}
+
+/* ===========================
+   SECTIONS
+   =========================== */
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.panel-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.panel-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+/* ===========================
+   USE CASE BUTTONS
+   =========================== */
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.uc-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-4) var(--space-3);
+
+  background:    rgba(0, 0, 0, 0.03);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor:        pointer;
+  transition:    all 0.15s ease;
+}
+
+.uc-btn:hover {
+  background:    rgba(0, 180, 216, 0.06);
+  border-color:  var(--accent-light);
+}
+
+.uc-btn--active {
+  background:    rgba(0, 180, 216, 0.1);
+  border-color:  var(--accent);
+  box-shadow:    0 0 0 2px rgba(0, 180, 216, 0.15);
+}
+
+.uc-icon  {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.uc-label {
+  font-size:   13px;
+  font-weight: 600;
+  color:       var(--text-secondary);
+}
+
+.uc-btn--active .uc-label {
+  color: var(--accent-dark);
+}
+
+/* ===========================
+   BUDGET SLIDER
+   =========================== */
+
+.budget-range {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 4px;
+}
+
+.budget-markers {
+  display:         flex;
+  justify-content: space-between;
+  font-size:       13px;
+  color:           var(--text-muted);
+  margin-top:      -var(--space-1);
+}
+
+/* ===========================
+   BUILD SUMMARY
+   =========================== */
+
+.summary-progress {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-2);
+}
+
+.summary-progress-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+}
+
+.summary-progress-label {
+  font-size:  12px;
+  color:      var(--text-secondary);
+}
+
+.summary-progress-count {
+  font-size:   12px;
+  font-weight: 600;
+  color:       var(--text-primary);
+}
+
+.progress-track {
+  height:        4px;
+  background:    var(--gray-200);
+  border-radius: 2px;
+  overflow:      hidden;
+}
+
+.progress-fill {
+  height:     100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ===========================
+   BUDGET BREAKDOWN
+   =========================== */
+
+.summary-budget {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-2);
+  padding:        var(--space-3);
+  background:     rgba(0, 0, 0, 0.02);
+  border-radius:  var(--radius-md);
+  border:         1px solid var(--border);
+}
+
+.summary-row {
+  display:         flex;
+  justify-content: space-between;
+  font-size:       13px;
+  color:           var(--text-secondary);
+}
+
+.summary-row span:last-child {
+  font-weight: 600;
+  color:       var(--text-primary);
+}
+
+.budget-used-bar {
+  height:        3px;
+  background:    var(--gray-200);
+  border-radius: 2px;
+  overflow:      hidden;
+  margin:        var(--space-1) 0;
+}
+
+.budget-used-fill {
+  height:        100%;
+  border-radius: 2px;
+  transition:    width 0.4s ease, background 0.3s ease;
+}
+
+.summary-row--remaining span:last-child {
+  font-size: 15px;
+}
+
+/* ===========================
+   COMPONENT LIST
+   =========================== */
+
+.summary-components {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+}
+
+.summary-item {
+  display:       grid;
+  grid-template-columns: 70px 1fr auto;
+  align-items:   center;
+  gap:           var(--space-2);
+  padding:       6px var(--space-2);
+  border-radius: var(--radius-sm);
+  transition:    background 0.1s ease;
+  cursor:        pointer;
+}
+
+.summary-item:hover {
+  background: rgba(0, 180, 216, 0.05);
+}
+
+.summary-item-category {
+  font-size:      9px;
+  font-weight:    700;
+  letter-spacing: 0.5px;
+  color:          var(--accent-dark);
+  background:     rgba(0, 180, 216, 0.1);
+  padding:        2px 5px;
+  border-radius:  4px;
+  text-align:     center;
+}
+
+.summary-item-name {
+  font-size:     11px;
+  color:         var(--text-secondary);
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+
+.summary-item-price {
+  font-size:   11px;
+  font-weight: 600;
+  color:       var(--text-primary);
+  white-space: nowrap;
+}
+
+/* ===========================
+   BUILD COMPLETE
+   =========================== */
+
+.summary-complete {
+  text-align:  center;
+  font-size:   12px;
+  font-weight: 700;
+  color:       var(--accent-dark);
+  letter-spacing: 1px;
+  padding:     var(--space-2);
+  background:  rgba(0, 180, 216, 0.08);
+  border:      1px solid rgba(0, 180, 216, 0.2);
+  border-radius: var(--radius-sm);
+}

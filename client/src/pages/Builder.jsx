@@ -1,30 +1,21 @@
-import Navbar from '../components/ui/Navbar'
-import PCScene from '../components/three/PCScene'
-import BuildSidebar from '../components/builder/BuildSidebar'
-import ComponentDetails from '../components/builder/ComponentDetails'
+import Navbar        from '../components/ui/Navbar'
+import PCScene       from '../components/three/PCScene'
+import LeftPanel     from '../components/builder/LeftPanel'
 import './Builder.css'
 
 export default function Builder() {
   return (
-    <div className="builder-page">
+    <div className="builder">
       <Navbar />
-      <div className="builder-container">
 
-        {/* Left Panel - Component Selection */}
-        <aside className="builder-sidebar">
-          <BuildSidebar />
-        </aside>
+      {/* Full screen 3D scene */}
+      <div className="builder-canvas">
+        <PCScene />
+      </div>
 
-        {/* Center - 3D Scene */}
-        <main className="builder-scene">
-          <PCScene />
-        </main>
-
-        {/* Right Panel - Build Summary */}
-        <aside className="builder-details">
-          <ComponentDetails />
-        </aside>
-
+      {/* Floating left panel */}
+      <div className="builder-panel-left">
+        <LeftPanel />
       </div>
     </div>
   )

@@ -3,15 +3,16 @@ import componentsData from '../data/components.json'
 
 // Default case shown before AI generates anything
 const DEFAULT_CASE = {
-  id:         'case-002',
-  name:       'NZXT H510',
-  brand:      'NZXT',
-  price:      89,
+  id:         'pc-default',
+  name:       'Default PC',
+  brand:      'Default',
+  price:      0,
   formFactor: 'ATX',
-  modelPath:  '/models/case/Case_NZXT_H5_Flow_464x215x424.glb',
+  modelPath:  '/models/case/compressed_test_pc_4th.glb',
   useCases:   ['school', 'work', 'gaming'],
   color:      '#333333',
 }
+
 
 const useStore = create((set, get) => ({
 
@@ -44,6 +45,7 @@ const useStore = create((set, get) => ({
   // ================================
   activeComponent:     null,
   activeCategory:      'cpu',
+  theme:               'light',
   aiExplanation:       null,
   aiPerformanceRating: null,
   aiSource:            null,
@@ -93,7 +95,10 @@ const useStore = create((set, get) => ({
   // ================================
   setActiveComponent: (name)     => set({ activeComponent: name }),
   setActiveCategory:  (category) => set({ activeCategory: category }),
-
+  toggleTheme: () => set((state) => ({
+    theme: state.theme === 'light' ? 'dark' : 'light'
+  })),
+  
   // ================================
   // COMPUTED: Total Price
   // ================================

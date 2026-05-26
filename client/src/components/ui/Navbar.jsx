@@ -1,40 +1,38 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link }  from 'react-router-dom'
+import useStore  from '../../store/useStore'
 import './Navbar.css'
 
 export default function Navbar() {
-  const location = useLocation()
+  const theme       = useStore((state) => state.theme)
+  const toggleTheme = useStore((state) => state.toggleTheme)
 
-  const isActive = (path) => location.pathname === path
+  const isDark = theme === 'dark'
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">
-          <span className="brand-icon">🖥️</span>
-          <span className="brand-name">MyPCbuilder</span>
-        </Link>
+    <header className="topbar">
+      <div className="topbar-logo">
+        <span className="topbar-logo-icon">⬡</span>
+        <span className="topbar-logo-text">MyPCbuilder</span>
       </div>
 
-      <div className="navbar-links">
-        <Link
-          to="/"
-          className={`nav-link ${isActive('/') ? 'active' : ''}`}
+      <nav className="topbar-nav">
+        <Link to="/about" className="topbar-link">About</Link>
+
+        {/* Theme toggle */}
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          Home
-        </Link>
-        <Link
-          to="/builder"
-          className={`nav-link ${isActive('/builder') ? 'active' : ''}`}
-        >
-          Builder
-        </Link>
-        <Link
-          to="/about"
-          className={`nav-link ${isActive('/about') ? 'active' : ''}`}
-        >
-          About
-        </Link>
-      </div>
-    </nav>
+          <div className={`toggle-track ${isDark ? 'toggle-track--dark' : ''}`}>
+            <div className="toggle-thumb">
+              <span className="toggle-icon">
+                {isDark ? '🌙' : '☀️'}
+              </span>
+            </div>
+          </div>
+        </button>
+      </nav>
+    </header>
   )
 }
