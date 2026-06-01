@@ -1,7 +1,8 @@
 import { create } from 'zustand'
-import componentsData from '../data/components.json'
+import { supabase } from '../lib/supabase'
+import { flattenComponent } from '../lib/flattenComponent'
+import { buildAPI } from '../services/api'
 
-// Default case shown before AI generates anything
 const DEFAULT_CASE = {
   id:         'pc-default',
   name:       'Default PC',
@@ -10,16 +11,17 @@ const DEFAULT_CASE = {
   formFactor: 'ATX',
   modelPath:  '/models/case/compressed_test_pc_4th.glb',
   useCases:   ['school', 'work', 'gaming'],
-  color:      '#333333',
+  color:      '#b61717',
 }
-
 
 const useStore = create((set, get) => ({
 
   // ================================
-  // RAW DATA
+  // COMPONENT CATALOG (from Supabase)
   // ================================
-  allComponents: componentsData,
+  components:        [],
+  componentsLoading: false,
+  componentsError:   null,
 
   // ================================
   // USER SELECTIONS (filters)
@@ -37,7 +39,7 @@ const useStore = create((set, get) => ({
     gpu:         null,
     storage:     null,
     psu:         null,
-    case:        DEFAULT_CASE,  // ← shows on load
+    case:        DEFAULT_CASE,
   },
 
   // ================================
@@ -49,6 +51,38 @@ const useStore = create((set, get) => ({
   aiExplanation:       null,
   aiPerformanceRating: null,
   aiSource:            null,
+  buildLoading:        false,
+  buildError:          null,
+
+  // ================================
+  // ACTIONS: AI Build Generation
+  // ================================
+  generateBuild: async () => {
+    const { useCase, budget } = get()
+    set({ buildLoading: true, buildError: null })
+    try {
+      const result = await buildAPI.generate(useCase, budget)
+      if (!result.success) throw new Error(result.error || 'Build generation failed')
+
+      set({
+        selectedComponents: {
+          cpu:         result.build.cpu         ?? null,
+          motherboard: result.build.motherboard ?? null,
+          ram:         result.build.ram         ?? null,
+          gpu:         result.build.gpu         ?? null,
+          storage:     result.build.storage     ?? null,
+          psu:         result.build.psu         ?? null,
+          case:        result.build.case        ?? DEFAULT_CASE,
+        },
+        aiExplanation:       result.explanation,
+        aiPerformanceRating: result.performanceRating,
+        aiSource:            result.source,
+        buildLoading:        false,
+      })
+    } catch (err) {
+      set({ buildError: err.message, buildLoading: false })
+    }
+  },
 
   // ================================
   // ACTIONS: Filters
@@ -71,8 +105,6 @@ const useStore = create((set, get) => ({
     set((state) => ({
       selectedComponents: {
         ...state.selectedComponents,
-        // If clearing the case, go back to default
-        // instead of null so scene stays populated
         [category]: category === 'case' ? DEFAULT_CASE : null,
       }
     })),
@@ -86,7 +118,7 @@ const useStore = create((set, get) => ({
         gpu:         null,
         storage:     null,
         psu:         null,
-        case:        DEFAULT_CASE,  // ← keep default case on reset
+        case:        DEFAULT_CASE,
       }
     }),
 
@@ -98,7 +130,7 @@ const useStore = create((set, get) => ({
   toggleTheme: () => set((state) => ({
     theme: state.theme === 'light' ? 'dark' : 'light'
   })),
-  
+
   // ================================
   // COMPUTED: Total Price
   // ================================
@@ -113,26 +145,12 @@ const useStore = create((set, get) => ({
   // COMPUTED: Filtered Components
   // ================================
   getFilteredComponents: (category) => {
-    const { allComponents, useCase, budget } = get()
-
-    const categoryMap = {
-      cpu:         'cpus',
-      motherboard: 'motherboards',
-      ram:         'rams',
-      gpu:         'gpus',
-      storage:     'storage',
-      psu:         'psus',
-      case:        'cases',
-    }
-
-    const key = categoryMap[category]
-    if (!allComponents[key]) return []
-
-    return allComponents[key].filter((component) => {
-      const matchesUseCase = component.useCases.includes(useCase)
-      const withinBudget   = component.price <= budget * 0.5
-      return matchesUseCase && withinBudget
-    })
+    const { components, useCase, budget } = get()
+    return components.filter(c =>
+      c.slot === category &&
+      c.useCases.includes(useCase) &&
+      c.price <= budget * 0.5
+    )
   },
 
   // ================================

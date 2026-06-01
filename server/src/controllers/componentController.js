@@ -1,59 +1,41 @@
-import { components } from '../data/components.js'
+import { supabase } from '../lib/supabase.js'
+import { flattenComponent } from '../lib/flattenComponent.js'
+
+const validTypes = ['cpu', 'motherboard', 'ram', 'gpu', 'storage', 'psu', 'case']
 
 // ================================
 // GET /api/components?type=cpu
 // ================================
 
-export function getComponents(req, res) {
+export async function getComponents(req, res) {
   try {
     const { type, useCase, maxPrice } = req.query
 
-    // Map URL param to data key
-    const typeMap = {
-      cpu:         'cpus',
-      motherboard: 'motherboards',
-      ram:         'rams',
-      gpu:         'gpus',
-      storage:     'storage',
-      psu:         'psus',
-      case:        'cases',
-    }
-
-    // Return ALL categories if no type specified
-    if (!type) {
-      return res.json({
-        success: true,
-        data: components,
-      })
-    }
-
-    const key = typeMap[type.toLowerCase()]
-
-    if (!key) {
+    if (type && !validTypes.includes(type.toLowerCase())) {
       return res.status(400).json({
         success: false,
         error: `Invalid component type: ${type}`,
-        validTypes: Object.keys(typeMap),
+        validTypes,
       })
     }
 
-    let result = [...components[key]]
+    let query = supabase.from('components').select('*')
+    if (type)     query = query.eq('slot', type.toLowerCase())
+    if (maxPrice) query = query.lte('price', Number(maxPrice))
 
-    // Filter by use case if provided
+    const { data, error } = await query
+    if (error) throw error
+
+    let result = data.map(flattenComponent)
+
+    // useCases lives inside specs (jsonb), filter in JS after fetch
     if (useCase) {
-      result = result.filter(c =>
-        c.useCases.includes(useCase.toLowerCase())
-      )
-    }
-
-    // Filter by max price if provided
-    if (maxPrice) {
-      result = result.filter(c => c.price <= Number(maxPrice))
+      result = result.filter(c => c.useCases.includes(useCase.toLowerCase()))
     }
 
     return res.json({
       success: true,
-      type,
+      type: type || 'all',
       count: result.length,
       data: result,
     })

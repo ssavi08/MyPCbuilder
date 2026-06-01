@@ -1,0 +1,41 @@
+# ---- Secrets (most important — never let the model read these) ----
+.env
+.env.*
+*.local
+
+# ---- Dependencies & build output (huge, zero value as context) ----
+node_modules/
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# ---- Lock files (enormous, almost never useful to read) ----
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ---- 3D models & Blender files (binary, can't be read as text) ----
+*.glb
+*.gltf
+*.blend
+*.blend1
+*.fbx
+*.obj
+*.stl
+
+# ---- Textures & raster images (binary, waste context) ----
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.hdr
+*.exr
+*.ktx2
+*.basis
+
+# ---- Logs, caches, OS junk ----
+*.log
+npm-debug.log*
+coverage/
+.DS_Store

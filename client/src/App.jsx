@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import AppRouter     from './router/AppRouter'
-import useStore      from './store/useStore'
+import AppRouter from './router/AppRouter'
+import useStore from './store/useStore'
 
 export default function App() {
   const theme = useStore((state) => state.theme)

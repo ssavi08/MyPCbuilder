@@ -14,7 +14,10 @@ async function request(path, options = {}) {
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error || `Request failed: ${response.status}`)
+      const msg = data.details
+        ? `${data.error}: ${data.details}`
+        : (data.error || `Request failed: ${response.status}`)
+      throw new Error(msg)
     }
 
     return data

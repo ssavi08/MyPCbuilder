@@ -2,6 +2,7 @@ import useStore      from '../../store/useStore'
 import AIBuildButton from './AIBuildButton'
 import './LeftPanel.css'
 
+
 const USE_CASES = [
   { key: 'school',  label: 'School',  icon: '🎓',
     desc: 'Studying & everyday use' },
@@ -18,6 +19,8 @@ export default function LeftPanel() {
     selectedComponents,
     getBuildSummary,
     clearAllComponents,
+    aiExplanation,
+    aiSource,
   } = useStore()
 
   const summary  = getBuildSummary()
@@ -164,6 +167,29 @@ export default function LeftPanel() {
           {summary.isComplete && (
             <div className="summary-complete">
               ✦ Build Complete
+            </div>
+          )}
+
+          {/* ── AI Reasoning (only shown for AI-generated builds) ── */}
+          {aiExplanation && (
+            <div className="ai-reasoning">
+              <div className="ai-reasoning-header">
+                <span className="ai-reasoning-badge">
+                  {aiSource === 'fallback' ? 'Auto Build' : 'AI Analysis'}
+                </span>
+              </div>
+
+              {aiExplanation.summary && (
+                <p className="ai-reasoning-summary">{aiExplanation.summary}</p>
+              )}
+
+              {aiExplanation.tradeoffs && (
+                <div className="ai-tradeoffs">
+                  <p className="ai-section-label">Key decisions & tradeoffs</p>
+                  <p className="ai-tradeoffs-text">{aiExplanation.tradeoffs}</p>
+                </div>
+              )}
+
             </div>
           )}
         </section>

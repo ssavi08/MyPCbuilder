@@ -38,7 +38,7 @@ export async function generateBuild(req, res) {
 
     // ---- Step 1: Build candidate pool ----
     console.log(`\n🔧 Building for: ${useCase} | $${budget}`)
-    const pool = buildCandidatePool(useCase, budget)
+    const pool = await buildCandidatePool(useCase, budget)
 
     // ---- Step 2: Validate pool ----
     const poolValidation = validatePool(pool)
